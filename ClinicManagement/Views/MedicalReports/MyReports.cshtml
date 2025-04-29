@@ -1,0 +1,30 @@
+@model IEnumerable<ClinicManagement.Core.Models.MedicalReport>
+
+@{
+    ViewBag.Title = "Tahlillerim";
+}
+
+
+
+
+<h2>Tahlillerim</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Yükleme Tarihi</th>
+            <th>Dosya Yolu</th>
+            <th>Analiz Sonucu</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var report in Model)
+        {
+            <tr>
+                <td>@report.UploadDate.ToString("dd.MM.yyyy HH:mm")</td>
+                <td><a href="@Url.Content(report.ReportPath)">Tahlil Dosyasý</a></td>
+                <td>@report.AnalysisResult ?? "Henüz Analiz Edilmedi"</td>
+            </tr>
+        }
+    </tbody>
+</table>

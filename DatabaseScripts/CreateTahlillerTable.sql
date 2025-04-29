@@ -1,0 +1,7 @@
+
+CREATE TABLE Tahliller (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    KullaniciId NVARCHAR(450) NOT NULL,
+    PdfPath NVARCHAR(MAX) NOT NULL,
+    YuklemeTarihi DATETIME DEFAULT GETDATE()
+);

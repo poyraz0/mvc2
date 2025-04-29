@@ -1,0 +1,77 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Use the project's layout file
+    ViewBag.Title = "BMI Calculation";
+    var bmiValue = ViewBag.BMI != null ? Convert.ToDouble(ViewBag.BMI) : 0.0;
+    var category = ViewBag.Category ?? "";
+}
+
+<!-- BMI Page -->
+<div class="container" style="max-width: 800px; margin: 0 auto; padding: 0; box-shadow: 0px 2px 5px rgba(0,0,0,0.2); background-color: #fff; border-radius: 8px;">
+    <div class="bmi-header" style="background-color: #2A3F54; color: #fff; padding: 15px; text-align: center; border-radius: 8px 8px 0 0;">
+        <h2>Body Mass Index (BMI) Calculation</h2>
+    </div>
+
+    <div style="padding: 20px;">
+        <!-- BMI Form -->
+        <form action="/BMI/Calculate" method="post">
+            <div class="form-group">
+                <label for="height">Your Height (cm):</label>
+                <input type="number" name="height" id="height" class="form-control" placeholder="e.g., 170" required />
+            </div>
+
+            <div class="form-group">
+                <label for="weight">Your Weight (kg):</label>
+                <input type="number" name="weight" id="weight" class="form-control" placeholder="e.g., 65" required />
+            </div>
+
+            <div class="form-group">
+                <label for="age">Your Age:</label>
+                <input type="number" name="age" id="age" class="form-control" placeholder="e.g., 30" required />
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Your Gender:</label>
+                <select name="gender" id="gender" class="form-control" required>
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top: 10px;">Calculate BMI</button>
+        </form>
+
+        <!-- Result Section -->
+        @if (bmiValue > 0)
+        {
+            <div style="margin-top: 20px; text-align: center;">
+                <h4>Your BMI Value: <span style="color: #007bff;">@bmiValue.ToString("0.0")</span></h4>
+                <p style="font-weight: bold; color: #2A3F54;">Category: @category</p>
+
+                <!-- BMI Progress Bar -->
+                <div style="background-color: #e9ecef; border-radius: 5px; overflow: hidden; height: 30px; margin-top: 10px; position: relative;">
+                    <div style="width: @ProgressWidth(bmiValue)%; background-color: @CategoryColor(bmiValue); height: 100%; text-align: center; color: #fff; font-weight: bold;">
+                        @bmiValue.ToString("0.0")
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@functions {
+    // Determine color based on BMI value
+    public string CategoryColor(double bmi)
+    {
+        if (bmi < 18.5) return "#17a2b8"; // Underweight - Blue
+        if (bmi < 25) return "#28a745";  // Normal - Green
+        if (bmi < 30) return "#ffc107";  // Overweight - Yellow
+        if (bmi < 35) return "#fd7e14";  // Obese - Orange
+        return "#dc3545";                // Extremely Obese - Red
+    }
+
+    // Calculate progress bar width based on BMI
+    public int ProgressWidth(double bmi)
+    {
+        return (int)Math.Min((bmi / 40) * 100, 100);
+    }
+}

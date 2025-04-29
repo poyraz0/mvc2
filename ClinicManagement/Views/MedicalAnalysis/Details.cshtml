@@ -1,0 +1,29 @@
+﻿@model ClinicManagement.Core.Models.MedicalAnalysis
+
+<h2>Analysis Details</h2>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <th>Report ID</th>
+        <td>@Model.MedicalReportId</td>
+    </tr>
+    <tr>
+        <th>Analysis Date</th>
+        <td>@Model.AnalizTarihi.ToString("yyyy-MM-dd HH:mm")</td>
+    </tr>
+    <tr>
+        <th>Result</th>
+        <td>@Model.Sonuc</td>
+    </tr>
+    <tr>
+        <th>Details</th>
+        <td>@Model.Detaylar</td>
+    </tr>
+</table>
+
+<p>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+</p>

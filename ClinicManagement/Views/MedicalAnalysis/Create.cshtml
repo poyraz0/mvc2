@@ -1,0 +1,19 @@
+﻿@model ClinicManagement.Core.Models.MedicalAnalysis
+
+<h2>Create Medical Analysis</h2>
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.MedicalReportId)
+        @Html.TextBoxFor(m => m.MedicalReportId, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Sonuc)
+        @Html.TextBoxFor(m => m.Sonuc, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Detaylar)
+        @Html.TextBoxFor(m => m.Detaylar, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Tahlil Yükle";
+}
+
+@*<h2>Tahlil Yükle</h2>
+
+    @using (Html.BeginForm("Upload", "MedicalReports", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <label for="pdfFile">Tahlil Dosyası (PDF):</label>
+        <input type="file" name="pdfFile" />
+        <button type="submit">Yükle</button>
+    }*@
+
+
+
+@*@{
+        ViewBag.Title = "Tahlil Yükle";
+    }
+
+    <div class="upload-container">
+        <h2 class="upload-title">🩺 Tahlil Dosyası Yükle</h2>
+        <p class="upload-description">PDF formatında tahlil dosyanızı yükleyerek analiz sonuçlarına erişebilirsiniz.</p>
+
+        @using (Html.BeginForm("Upload", "MedicalReports", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="file-upload-wrapper">
+                <label for="pdfFile" class="custom-file-label">
+                    <i class="fa fa-cloud-upload"></i> Dosya Seç
+                </label>
+                <input id="pdfFile" type="file" name="pdfFile" accept=".pdf" />
+            </div>
+            <button type="submit" class="btn-upload">Yükle</button>
+        }
+
+        <div class="upload-info">
+            <p> Yüklenen dosya PDF formatında olmalıdır.</p>
+            <p> Verileriniz güvenli bir şekilde saklanacaktır.</p>
+        </div>
+    </div>*@
+
+
+
+
+@{
+    ViewBag.Title = "Upload Medical Report";
+}
+
+<div class="upload-container">
+    <h2 class="upload-title"> Upload Medical Report</h2>
+    <p class="upload-description">You can upload your medical report in PDF format to access the analysis results.</p>
+
+    @using (Html.BeginForm("Upload", "MedicalReports", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="file-upload-wrapper">
+            <label for="pdfFile" class="custom-file-label">
+                <i class="fa fa-cloud-upload"></i> Choose File
+            </label>
+            <input id="pdfFile" type="file" name="pdfFile" accept=".pdf" />
+        </div>
+        <button type="submit" class="btn-upload">Upload</button>
+    }
+
+    <div class="upload-info">
+        <p>The uploaded file must be in PDF format.</p>
+        <p>Your data will be securely stored.</p>
+    </div>
+</div>

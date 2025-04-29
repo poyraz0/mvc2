@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "Analiz Sonucu";
+}
+
+@*<h2>Analiz Sonucu</h2>
+    <p><strong>Sonuç:</strong> @ViewBag.Explanation</p>
+    <p><strong>Tahmin:</strong> @(ViewBag.Prediction == 1 ? "Sağlıksız" : "Sağlıklı")</p>
+    <p><strong>Öneriler:</strong></p>
+    <ul>
+        @foreach (var recommendation in ViewBag.Recommendations)
+        {
+            <li>@recommendation</li>
+        }
+    </ul>*@
+
+
+
+@*@{
+        ViewBag.Title = "Analiz Sonucu";
+    }
+
+    <h2>Analiz Sonucu</h2>
+    <p><strong>Sonuç:</strong> @ViewBag.Explanation</p>
+    <p><strong>Tahmin:</strong> @(Convert.ToInt32(ViewBag.Prediction) == 1 ? "Sağlıksız" : "Sağlıklı")</p>
+    <p><strong>Öneriler:</strong></p>
+    <ul>
+        @if (ViewBag.Recommendations != null)
+        {
+            foreach (var recommendation in ViewBag.Recommendations)
+            {
+                <li>@recommendation</li>
+            }
+        }
+        else
+        {
+            <li>Öneri bulunamadı.</li>
+        }
+    </ul>*@
+
+
+@*@{
+        ViewBag.Title = "Analiz Sonucu";
+    }
+
+    <div class="analysis-result-container">
+        <h2 class="analysis-title">Analiz Sonucu</h2>
+
+        <div class="analysis-summary">
+            <div class="result-card">
+                <h3>Sonuç</h3>
+                <p>@ViewBag.Explanation</p>
+            </div>
+            <div class="result-card">
+                <h3>Tahmin</h3>
+                <p>
+                    @(Convert.ToInt32(ViewBag.Prediction) == 1 ? "Sağlıksız" : "Sağlıklı")
+                </p>
+            </div>
+        </div>
+
+        <div class="analysis-recommendations">
+            <h3>Öneriler</h3>
+            <ul>
+                @if (ViewBag.Recommendations != null)
+                {
+                    foreach (var recommendation in ViewBag.Recommendations)
+                    {
+                        <li>@recommendation</li>
+                    }
+                }
+                else
+                {
+                    <li>Öneri bulunamadı.</li>
+                }
+            </ul>
+        </div>
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const footer = document.querySelector('footer');
+            const bodyHeight = document.body.offsetHeight;
+            const windowHeight = window.innerHeight;
+
+            if (bodyHeight < windowHeight) {
+                footer.style.marginTop = (windowHeight - bodyHeight) + 'px';
+            }
+        });
+    </script>*@
+
+
+
+
+@{
+    ViewBag.Title = "Analysis Result";
+}
+
+<div class="analysis-result-container">
+    <h2 class="analysis-title">Analysis Result</h2>
+
+    <div class="analysis-summary">
+        <div class="result-card">
+            <h3>Result</h3>
+            <p>@ViewBag.Explanation</p>
+        </div>
+        <div class="result-card">
+            <h3>Prediction</h3>
+            <p>
+                @(Convert.ToInt32(ViewBag.Prediction) == 1 ? "Unhealthy" : "Healthy")
+            </p>
+        </div>
+    </div>
+
+    <div class="analysis-recommendations">
+        <h3>Recommendations</h3>
+        <ul>
+            @if (ViewBag.Recommendations != null)
+            {
+                foreach (var recommendation in ViewBag.Recommendations)
+                {
+                    <li>@recommendation</li>
+                }
+            }
+            else
+            {
+                <li>No recommendations available.</li>
+            }
+        </ul>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const footer = document.querySelector('footer');
+        const bodyHeight = document.body.offsetHeight;
+        const windowHeight = window.innerHeight;
+
+        if (bodyHeight < windowHeight) {
+            footer.style.marginTop = (windowHeight - bodyHeight) + 'px';
+        }
+    });
+</script>

@@ -1,0 +1,146 @@
+﻿@model IEnumerable<ClinicManagement.Core.Models.Appointment>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<!-- top tiles -->
+<div class="row top_tiles">
+    @*<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+                <div class="count patients"></div>
+                <h3>Total Patients</h3>
+                <p class="count_bottom"><i class="green todayspatients"> </i> Added From Today</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-comments-o"></i></div>
+                <div class="count appointments"></div>
+                <h3>Total Appointments</h3>
+                <p class="count_bottom"><i class="green todaysappointments"> </i>  For Today</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
+                <div class="count doctors"></div>
+                <h3>Total Doctors</h3>
+                <p class="count_bottom"><i class="green availabledoctors"> </i> Doctors Available</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-check-square-o"></i></div>
+                <div class="count users"></div>
+                <h3>Total Users</h3>
+                <p class="count_bottom"><i class="green activeaccounts"> </i> Active Accounts</p>
+            </div>
+        </div>*@
+
+    @{
+        ViewBag.Title = "Takvim";
+    }
+
+    @*<h2 style="text-align: center; margin-top: 20px;">Calendar</h2>*@
+    <div id="calendar"></div>
+
+    <!-- FullCalendar CSS ve JS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const calendarEl = document.getElementById('calendar');
+            if (calendarEl) {
+                const calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth', // Ay görünümü
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    locale: 'tr',
+                    editable: false,
+                    dayMaxEvents: true,
+                    events: [
+                        {
+                            title: '',
+                            start: '2022-12-25',
+                            color: '#'
+                        },
+                        {
+                            title: '',
+                            start: '2022-12-28',
+                            color: '#'
+                        }
+                    ]
+                });
+                calendar.render();
+            } else {
+                console.error('Takvim öğesi bulunamadı: #calendar');
+            }
+        });
+    </script>
+
+    <style>
+        #calendar {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+
+
+
+
+</div>
+<!-- /top tiles -->
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            //render total patient
+            $.get('../../../Home/TotalPatients', null, function (data) {
+                $('.patients').append(data);
+            }, 'json');
+
+            //render total apointments
+            $.get('../../../Home/TotalAppointments', null, function (data) {
+                $('.appointments').append(data);
+            }, 'json');
+            //render total doctors
+            $.get('../../../Home/TotalDoctors', null, function (data) {
+                $('.doctors').append(data);
+            }, 'json');
+            //render total users
+            $.get('../../../Home/TotalUsers', null, function (data) {
+                $('.users').append(data);
+            }, 'json');
+            //render todays patients
+            $.get('../../../Home/TodaysPatients', null, function (data) {
+                $('.todayspatients').append(data);
+            }, 'json');
+            //Today's appointments
+            $.get('../../../Home/TodaysAppointments', null, function (data) {
+                $('.todaysappointments').append(data);
+            }, 'json');
+            //render available doctors
+            $.get('../../../Home/AvailableDoctors', null, function (data) {
+                $('.availabledoctors').append(data);
+            }, 'json');
+            //ActiveAccounts
+            $.get('../../../Home/ActiveAccounts', null, function (data) {
+                $('.activeaccounts').append(data);
+            }, 'json');
+            
+
+        });
+    </script>
+}

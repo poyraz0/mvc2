@@ -1,0 +1,208 @@
+﻿@model IEnumerable<ClinicManagement.Core.Models.MedicalAnalysis>
+
+
+
+
+
+@*<h2>Medical Analyses</h2>*@
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Report ID</th>
+                <th>Analysis Date</th>
+                <th>Result</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var analysis in Model)
+            {
+                <tr>
+                    <td>@analysis.Id</td>
+                    <td>@analysis.MedicalReportId</td>
+                    <td>@analysis.AnalizTarihi</td>
+                    <td>@analysis.Sonuc</td>
+                    <td>@analysis.Detaylar</td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
+
+@*<table>
+        <thead>
+            <tr>
+                <th>Analysis ID</th>
+                <th>Analysis Date</th>
+                <th>Result</th>
+                <th>Details</th>
+                <th>Report ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.AnalizTarihi</td>
+                    <td>@item.Sonuc</td>
+                    <td>@item.Detaylar</td>
+                    <td>@item.MedicalReportId</td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
+
+@*@if (TempData["PredictionResult"] != null)
+    {
+        <h3>Analiz Sonucu: @TempData["PredictionResult"]</h3>
+    }
+
+    @if (ViewBag.PredictionResult != null)
+    {
+        <h3>Analiz Sonucu: @ViewBag.PredictionResult</h3>
+    }
+    else
+    {
+        <p>Henüz bir analiz yapılmadı.</p>
+    }
+
+
+    @if (ViewBag.PredictionResult != null)
+    {
+        <h3>Analiz Sonucu: @ViewBag.PredictionResult</h3>
+    }
+    else
+    {
+        <p>Henüz bir analiz yapılmadı.</p>
+    }*@
+
+
+
+
+@*<div class="container">
+        <h2>Medical Analyses</h2>
+        <div class="result-card">
+            @if (ViewBag.PredictionResult != null)
+            {
+                <div class="card @((ViewBag.PredictionResult == 1) ? "unhealthy" : "healthy")">
+                    <h3>Analiz Sonucu:</h3>
+                    @if (ViewBag.PredictionResult == 1)
+                    {
+                        <p>Sağlıksız</p>
+                        <p>Lütfen doktorunuza başvurun.</p>
+                    }
+                    else if (ViewBag.PredictionResult == 0)
+                    {
+                        <p>Sağlıklı</p>
+                        <p>Tahlil sonuçlarınız normal görünüyor.</p>
+                    }
+                </div>
+            }
+            else
+            {
+                <p>Henüz bir analiz yapılmadı.</p>
+            }
+        </div>
+    </div>*@
+
+@{
+    ViewBag.Title = "Medical Analysis";
+}
+
+
+
+@*@if (ViewBag.PredictionResult != null)
+    {
+        if (int.TryParse(ViewBag.PredictionResult.ToString(), out int prediction))
+        {
+            <div class="result-card @(prediction == 1 ? "unhealthy" : "healthy")">
+                <h3>Analiz Sonucu:</h3>
+                @if (prediction == 1)
+                {
+                    <p>Sonuç: Sağlıksız</p>
+                }
+                else
+                {
+                    <p>Sonuç: Sağlıklı</p>
+                }
+            </div>
+        }
+        else
+        {
+            <p>Analiz sonucu sayısal bir değer değil.</p>
+        }
+    }
+    else
+    {
+        <p>Analiz sonucu bulunamadı veya veri eksik.</p>
+    }*@
+
+
+@*<div class="prediction-result">
+        <h2>Analiz Sonucu</h2>
+
+        @if (ViewBag.PredictionResult != null && ViewBag.Recommendations != null)
+        {
+            int prediction = Convert.ToInt32(ViewBag.PredictionResult);
+            <div class="result-card @(prediction == 1 ? "unhealthy" : "healthy")">
+                <h3>Sonuç: @(prediction == 1 ? "Sağlıksız" : "Sağlıklı")</h3>
+            </div>
+
+            <h3>Öneriler:</h3>
+            <ul>
+                @foreach (var recommendation in ViewBag.Recommendations)
+                {
+                    <li>@recommendation</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Analiz sonucu ve öneriler mevcut değil. Lütfen bir tahlil yükleyin.</p>
+        }
+    </div>*@
+
+
+
+
+
+@{
+    int predictionResult = 0;
+    if (ViewBag.PredictionResult != null)
+    {
+        int.TryParse(ViewBag.PredictionResult.ToString(), out predictionResult);
+    }
+}
+
+@*<div>
+    <h2>Tahmin Sonucu</h2>
+    <h3>Sonuç: @(predictionResult == 1 ? "Sağlıksız" : "Sağlıklı")</h3>
+    <p>Açıklama: @ViewBag.Explanation</p>
+
+    <h4>Öneriler:</h4>
+    <ul>
+        @if (ViewBag.Recommendations != null)
+        {
+            foreach (var recommendation in ViewBag.Recommendations)
+            {
+                <li>@recommendation</li>
+            }
+        }
+        else
+        {
+            <li>Öneri bulunmamaktadır.</li>
+        }
+    </ul>
+</div>
+
+
+@if (ViewBag.PredictionResult != null)
+{
+    <h3>Tahmin Sonucu:</h3>
+    <pre>@Html.Raw(ViewBag.PredictionResult)</pre>
+}
+else
+{
+    <p>Henüz bir tahmin bulunmuyor.</p>
+}*@
