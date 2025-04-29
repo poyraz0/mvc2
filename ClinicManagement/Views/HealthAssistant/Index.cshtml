@@ -3,25 +3,64 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Health Assistant</h4>
-                </div>
-                <div class="card-body">
-                    <div id="chat-messages" class="chat-messages" style="height: 400px; overflow-y: auto; margin-bottom: 20px;">
-                        <div class="message assistant">
-                            <div class="message-content">
-                                Hello! I am your health assistant. How can I help you today?
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-comments"></i> Health Assistant <small>AI-Powered Medical Assistant</small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="chat-container">
+                            <div id="chat-messages" class="chat-messages">
+                                <div class="message assistant">
+                                    <div class="message-avatar">
+                                        <i class="fa fa-robot"></i>
+                                    </div>
+                                    <div class="message-content">
+                                        <div class="message-header">
+                                            <span class="name">Health Assistant</span>
+                                            <span class="time">@DateTime.Now.ToString("HH:mm")</span>
+                                        </div>
+                                        <div class="message-text">
+                                            Hello! I am your AI health assistant. How can I help you today?
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-input-container">
+                                <div class="input-group">
+                                    <input type="text" id="message-input" class="form-control" placeholder="Type your medical question here...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" id="send-button" type="button">
+                                            <i class="fa fa-paper-plane"></i> Send
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="input-group">
-                        <input type="text" id="message-input" class="form-control" placeholder="Type your message...">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" id="send-button">Send</button>
+                    <div class="col-md-4">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>How to Use</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <div class="dashboard-widget-content">
+                                    <ul class="quick-list">
+                                        <li><i class="fa fa-check-circle"></i> Ask medical questions</li>
+                                        <li><i class="fa fa-check-circle"></i> Get symptom information</li>
+                                        <li><i class="fa fa-check-circle"></i> Learn about medications</li>
+                                        <li><i class="fa fa-check-circle"></i> Receive general health advice</li>
+                                    </ul>
+                                    <div class="alert alert-info" role="alert">
+                                        <i class="fa fa-info-circle"></i> Note: This AI assistant provides general information only. Always consult with a healthcare professional for medical advice.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -30,47 +69,6 @@
     </div>
 </div>
 
-@section Styles {
-    <style>
-        .chat-messages {
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-        }
-
-        .message {
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .message.user {
-            align-items: flex-end;
-        }
-
-        .message.assistant {
-            align-items: flex-start;
-        }
-
-        .message-content {
-            padding: 10px 15px;
-            border-radius: 15px;
-            max-width: 80%;
-            word-wrap: break-word;
-        }
-
-        .message.user .message-content {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .message.assistant .message-content {
-            background-color: #e9ecef;
-            color: #212529;
-        }
-    </style>
-}
-
 @section Scripts {
     <script>
         $(document).ready(function () {
@@ -78,11 +76,27 @@
             const messageInput = $('#message-input');
             const sendButton = $('#send-button');
 
+            function getCurrentTime() {
+                return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+            }
+
             function addMessage(content, isUser) {
-                const messageDiv = $('<div>').addClass('message').addClass(isUser ? 'user' : 'assistant');
-                const messageContent = $('<div>').addClass('message-content').text(content);
-                messageDiv.append(messageContent);
-                chatMessages.append(messageDiv);
+                const time = getCurrentTime();
+                const messageHtml = `
+                    <div class="message ${isUser ? 'user' : 'assistant'}">
+                        <div class="message-avatar">
+                            <i class="fa fa-${isUser ? 'user' : 'robot'}"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="name">${isUser ? 'You' : 'Health Assistant'}</span>
+                                <span class="time">${time}</span>
+                            </div>
+                            <div class="message-text">${content}</div>
+                        </div>
+                    </div>
+                `;
+                chatMessages.append(messageHtml);
                 chatMessages.scrollTop(chatMessages[0].scrollHeight);
             }
 
@@ -90,7 +104,11 @@
                 const message = messageInput.val().trim();
                 if (message) {
                     addMessage(message, true);
-                    messageInput.val('');
+                    messageInput.val('').focus();
+                    
+                    // Disable input and button while processing
+                    messageInput.prop('disabled', true);
+                    sendButton.prop('disabled', true);
 
                     $.ajax({
                         url: '@Url.Action("SendMessage", "HealthAssistant")',
@@ -107,6 +125,12 @@
                         },
                         error: function () {
                             addMessage('Sorry, an error occurred. Please try again.', false);
+                        },
+                        complete: function() {
+                            // Re-enable input and button after processing
+                            messageInput.prop('disabled', false);
+                            sendButton.prop('disabled', false);
+                            messageInput.focus();
                         }
                     });
                 }
@@ -114,10 +138,14 @@
 
             sendButton.click(sendMessage);
             messageInput.keypress(function (e) {
-                if (e.which === 13) {
+                if (e.which === 13 && !e.shiftKey) {
+                    e.preventDefault();
                     sendMessage();
                 }
             });
+
+            // Focus input on page load
+            messageInput.focus();
         });
     </script>
 } 

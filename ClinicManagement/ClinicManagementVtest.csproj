@@ -655,6 +655,7 @@
     <Compile Include="Core\ViewModel\PatientDetailViewModel.cs" />
     <Compile Include="Core\ViewModel\PatientFormViewModel.cs" />
     <Compile Include="Core\ViewModel\ValidTime.cs" />
+    <Compile Include="Controllers\HealthAssistantController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datepicker.css" />
@@ -1478,6 +1479,7 @@
     <Content Include="Views\AnalysisResult\Index.cshtml" />
     <Content Include="Views\BMI\Index.cshtml" />
     <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\HealthAssistant\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data2\" />
