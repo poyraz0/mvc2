@@ -1,0 +1,123 @@
+@{
+    ViewBag.Title = "Health Assistant";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Health Assistant</h4>
+                </div>
+                <div class="card-body">
+                    <div id="chat-messages" class="chat-messages" style="height: 400px; overflow-y: auto; margin-bottom: 20px;">
+                        <div class="message assistant">
+                            <div class="message-content">
+                                Hello! I am your health assistant. How can I help you today?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="message-input" class="form-control" placeholder="Type your message...">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" id="send-button">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .chat-messages {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message.user {
+            align-items: flex-end;
+        }
+
+        .message.assistant {
+            align-items: flex-start;
+        }
+
+        .message-content {
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .message.assistant .message-content {
+            background-color: #e9ecef;
+            color: #212529;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            const chatMessages = $('#chat-messages');
+            const messageInput = $('#message-input');
+            const sendButton = $('#send-button');
+
+            function addMessage(content, isUser) {
+                const messageDiv = $('<div>').addClass('message').addClass(isUser ? 'user' : 'assistant');
+                const messageContent = $('<div>').addClass('message-content').text(content);
+                messageDiv.append(messageContent);
+                chatMessages.append(messageDiv);
+                chatMessages.scrollTop(chatMessages[0].scrollHeight);
+            }
+
+            function sendMessage() {
+                const message = messageInput.val().trim();
+                if (message) {
+                    addMessage(message, true);
+                    messageInput.val('');
+
+                    $.ajax({
+                        url: '@Url.Action("SendMessage", "HealthAssistant")',
+                        type: 'POST',
+                        data: { message: message },
+                        success: function (response) {
+                            if (response.success) {
+                                const parsedResponse = JSON.parse(response.response);
+                                const assistantMessage = parsedResponse.choices[0].message.content;
+                                addMessage(assistantMessage, false);
+                            } else {
+                                addMessage('Sorry, an error occurred. Please try again.', false);
+                            }
+                        },
+                        error: function () {
+                            addMessage('Sorry, an error occurred. Please try again.', false);
+                        }
+                    });
+                }
+            }
+
+            sendButton.click(sendMessage);
+            messageInput.keypress(function (e) {
+                if (e.which === 13) {
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+} 
