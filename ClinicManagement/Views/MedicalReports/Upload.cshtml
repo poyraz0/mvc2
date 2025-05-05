@@ -1,67 +1,90 @@
 ﻿@{
-    ViewBag.Title = "Tahlil Yükle";
-}
-
-@*<h2>Tahlil Yükle</h2>
-
-    @using (Html.BeginForm("Upload", "MedicalReports", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <label for="pdfFile">Tahlil Dosyası (PDF):</label>
-        <input type="file" name="pdfFile" />
-        <button type="submit">Yükle</button>
-    }*@
-
-
-
-@*@{
-        ViewBag.Title = "Tahlil Yükle";
-    }
-
-    <div class="upload-container">
-        <h2 class="upload-title">🩺 Tahlil Dosyası Yükle</h2>
-        <p class="upload-description">PDF formatında tahlil dosyanızı yükleyerek analiz sonuçlarına erişebilirsiniz.</p>
-
-        @using (Html.BeginForm("Upload", "MedicalReports", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <div class="file-upload-wrapper">
-                <label for="pdfFile" class="custom-file-label">
-                    <i class="fa fa-cloud-upload"></i> Dosya Seç
-                </label>
-                <input id="pdfFile" type="file" name="pdfFile" accept=".pdf" />
-            </div>
-            <button type="submit" class="btn-upload">Yükle</button>
-        }
-
-        <div class="upload-info">
-            <p> Yüklenen dosya PDF formatında olmalıdır.</p>
-            <p> Verileriniz güvenli bir şekilde saklanacaktır.</p>
-        </div>
-    </div>*@
-
-
-
-
-@{
     ViewBag.Title = "Upload Medical Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="upload-container">
-    <h2 class="upload-title"> Upload Medical Report</h2>
-    <p class="upload-description">You can upload your medical report in PDF format to access the analysis results.</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-file-pdf-o"></i> Upload Medical Report <small>AI-Powered Analysis</small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="medical-reports-container">
+                    <div class="info-box">
+                        <h3 class="info-box-title"><i class="fa fa-lightbulb-o"></i> How It Works</h3>
+                        <div class="info-box-content">
+                            <p>Our AI-powered system analyzes your medical reports to provide valuable insights and recommendations. Here's what you need to know:</p>
+                            <ul>
+                                <li>Upload your medical report in PDF format</li>
+                                <li>Our AI system will analyze the content</li>
+                                <li>Get detailed insights and recommendations</li>
+                                <li>View your analysis history in your profile</li>
+                            </ul>
+                        </div>
+                    </div>
 
-    @using (Html.BeginForm("Upload", "MedicalReports", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <div class="file-upload-wrapper">
-            <label for="pdfFile" class="custom-file-label">
-                <i class="fa fa-cloud-upload"></i> Choose File
-            </label>
-            <input id="pdfFile" type="file" name="pdfFile" accept=".pdf" />
+                    <div class="upload-section">
+                        <h2 class="upload-title">Upload Your Medical Report</h2>
+                        <p class="upload-description">Upload your medical report in PDF format to get AI-powered analysis and insights.</p>
+
+                        @using (Html.BeginForm("Upload", "MedicalReports", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="file-upload-wrapper">
+                                <label for="pdfFile" class="custom-file-label">
+                                    <i class="fa fa-cloud-upload"></i> Choose PDF File
+                                </label>
+                                <input id="pdfFile" type="file" name="pdfFile" accept=".pdf" />
+                            </div>
+                            <button type="submit" class="btn-upload">
+                                <i class="fa fa-upload"></i> Upload and Analyze
+                            </button>
+                        }
+
+                        <div class="upload-info">
+                            <p><i class="fa fa-info-circle"></i> The uploaded file must be in PDF format.</p>
+                            <p><i class="fa fa-shield"></i> Your data will be securely stored and analyzed.</p>
+                            <p><i class="fa fa-clock-o"></i> Analysis results will be available immediately after upload.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h3 class="info-box-title"><i class="fa fa-exclamation-triangle"></i> Important Notes</h3>
+                        <div class="info-box-content">
+                            <ul>
+                                <li>Maximum file size: 10MB</li>
+                                <li>Supported format: PDF only</li>
+                                <li>Analysis results are for informational purposes only</li>
+                                <li>Always consult with healthcare professionals for medical advice</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-exclamation-circle"></i> @ViewBag.Error
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn-upload">Upload</button>
-    }
-
-    <div class="upload-info">
-        <p>The uploaded file must be in PDF format.</p>
-        <p>Your data will be securely stored.</p>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Update file input label with selected filename
+            $('#pdfFile').change(function () {
+                var fileName = $(this).val().split('\\').pop();
+                if (fileName) {
+                    $('.custom-file-label').html('<i class="fa fa-file-pdf-o"></i> ' + fileName);
+                } else {
+                    $('.custom-file-label').html('<i class="fa fa-cloud-upload"></i> Choose PDF File');
+                }
+            });
+        });
+    </script>
+}

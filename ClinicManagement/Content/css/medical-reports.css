@@ -1,0 +1,173 @@
+.medical-reports-container {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.upload-section {
+    background: #f8f9fa;
+    border: 2px dashed #26B99A;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+
+.upload-section:hover {
+    border-color: #2A3F54;
+    background: #f0f0f0;
+}
+
+.upload-title {
+    color: #2A3F54;
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.upload-description {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.file-upload-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.custom-file-label {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #26B99A;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.custom-file-label:hover {
+    background: #2A3F54;
+    transform: translateY(-2px);
+}
+
+.custom-file-label i {
+    margin-right: 8px;
+}
+
+#pdfFile {
+    position: absolute;
+    left: -9999px;
+}
+
+.btn-upload {
+    background: #2A3F54;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-upload:hover {
+    background: #26B99A;
+    transform: translateY(-2px);
+}
+
+.upload-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #e8f4f3;
+    border-radius: 4px;
+    border-left: 4px solid #26B99A;
+}
+
+.upload-info p {
+    margin: 8px 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.upload-info i {
+    color: #26B99A;
+    margin-right: 8px;
+}
+
+.info-box {
+    background: #f8f9fa;
+    border-left: 4px solid #2A3F54;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+.info-box-title {
+    color: #2A3F54;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.info-box-content {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.info-box-content ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.info-box-content li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.info-box-content li:before {
+    content: "•";
+    color: #26B99A;
+    position: absolute;
+    left: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .medical-reports-container {
+        padding: 15px;
+    }
+    
+    .upload-section {
+        padding: 20px;
+    }
+    
+    .upload-title {
+        font-size: 20px;
+    }
+    
+    .custom-file-label {
+        padding: 10px 20px;
+    }
+    
+    .btn-upload {
+        padding: 10px 25px;
+    }
+    
+    .info-box {
+        padding: 12px;
+    }
+    
+    .info-box-title {
+        font-size: 16px;
+    }
+} 

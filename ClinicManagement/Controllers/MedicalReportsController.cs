@@ -11,10 +11,7 @@ using ClinicManagement.Core.Models;
 using System;
 using Microsoft.AspNetCore.Hosting.Server;
 using System.IO;
-
-
-
-
+using System.Collections.Generic;
 
 namespace ClinicManagement.Controllers
 {
@@ -129,9 +126,8 @@ namespace ClinicManagement.Controllers
                             var predictResponse = JsonConvert.DeserializeObject<PredictResponse>(predictionResult);
 
                             TempData["Explanation"] = predictResponse.Explanation;
-                            TempData["Prediction"] = predictResponse.Prediction.ToString(); // Prediction'ı string'e çevirin
+                            TempData["Prediction"] = predictResponse.Prediction.ToString();
                             TempData["Recommendations"] = predictResponse.Recommendations;
-
 
                             return RedirectToAction("Index", "AnalysisResult");
                         }
@@ -182,7 +178,7 @@ namespace ClinicManagement.Controllers
         //{
         //    using (var client = new HttpClient())
         //    {
-        //        var url = "http://127.0.0.1:5000/extract"; // Flask API PDF extraction endpoint
+        //        var url = "http://127.0.0.1:5000/extract"; // Flask API endpoint
         //        var fileContent = new ByteArrayContent(System.IO.File.ReadAllBytes(filePath));
         //        var formData = new MultipartFormDataContent();
         //        formData.Add(fileContent, "pdf", "tahlil.pdf");
@@ -237,10 +233,7 @@ namespace ClinicManagement.Controllers
         {
             using (var client = new HttpClient())
             {
-                //var url = "http://127.0.0.1:5000/predict"; // Flask API tahmin endpoint
-
                 var url = "https://muratpoyraz1.pythonanywhere.com/predict";
-
 
                 var json = JsonConvert.SerializeObject(new { features = extractedData });
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -249,10 +242,10 @@ namespace ClinicManagement.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
-                    return result; // Tahmin sonucu
+                    return result;
                 }
 
-                return null; // Hata durumunda null döner
+                return null;
             }
         }
 

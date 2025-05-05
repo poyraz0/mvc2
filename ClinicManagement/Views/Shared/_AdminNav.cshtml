@@ -1,9 +1,13 @@
-﻿<ul class="nav side-menu">
+﻿@using Microsoft.AspNet.Identity
+@using ClinicManagement.Core.Models
+@using ClinicManagement.Core
+
+<ul class="nav side-menu">
     <li>
         <a href="/"><i class="fa fa-home"></i> Dashboard </a>
     </li>
     <li><a href="@Url.Action("Index","Patients")"><i class="fa fa-edit"></i> Patient</a></li>
-    @*<li><a href="@Url.Action("Index","Appointments")"><i class="fa fa-edit"></i> Appointment</a></li>*@
+    <li><a href="@Url.Action("Index","Appointments")"><i class="fa fa-edit"></i> Appointment</a></li>
     <li><a href="@Url.Action("Index","Doctors")"><i class="fa fa-edit"></i> Doctors</a></li>
     <li> <a href="@Url.Action("Index","Account")"><i class="fa fa-edit"></i> Users </a> </li>
     <li><a href="@Url.Action("Upload","MedicalReports")"><i class="fa fa-upload"></i> Medical Analysis</a></li>

@@ -30,14 +30,13 @@
                         <td>@item.Role</td>
                         <td>
                             @{
-                                //cast to bool
-                                if ((bool)item.IsActive)
+                                if (item.IsActive.HasValue && item.IsActive.Value)
                                 {
                                     <a href="#" style="padding: 3px 10px 3px 10px; background-color:green " class="badge" readonly>Active</a>
                                 }
                                 else
                                 {
-                                    <a href="#" style="padding: 3px 10px 3px 10px; background-color:red " class="badge" readonly>locked</a>
+                                    <a href="#" style="padding: 3px 10px 3px 10px; background-color:red " class="badge" readonly>Inactive</a>
                                 }
                             }
                         </td>

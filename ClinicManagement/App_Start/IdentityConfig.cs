@@ -8,6 +8,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ClinicManagement.Core.Models;
 using ClinicManagement.Persistence;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace ClinicManagement
 {
@@ -114,10 +117,7 @@ namespace ClinicManagement
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
 
-
-
         //override PasswordSignInAsyc for active and locked users
-
         public override Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool rememberMe, bool shouldLockout)
         {
             var user = UserManager.FindByEmailAsync(userName).Result;
@@ -126,6 +126,41 @@ namespace ClinicManagement
                 return Task.FromResult<SignInStatus>(SignInStatus.LockedOut);
 
             return base.PasswordSignInAsync(userName, password, rememberMe, shouldLockout);
+        }
+    }
+
+    public class ApplicationDbInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    {
+        protected override void Seed(ApplicationDbContext context)
+        {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            // Create roles if they don't exist
+            if (!roleManager.RoleExists("Administrator"))
+            {
+                roleManager.Create(new IdentityRole("Administrator"));
+            }
+            if (!roleManager.RoleExists("Doctor"))
+            {
+                roleManager.Create(new IdentityRole("Doctor"));
+            }
+
+            // Create admin user if it doesn't exist
+            var adminUser = userManager.FindByEmail("admin@clinic.com");
+            if (adminUser == null)
+            {
+                adminUser = new ApplicationUser
+                {
+                    UserName = "admin@clinic.com",
+                    Email = "admin@clinic.com",
+                    Name = "Admin User"
+                };
+                userManager.Create(adminUser, "Admin123!");
+                userManager.AddToRole(adminUser.Id, "Administrator");
+            }
+
+            base.Seed(context);
         }
     }
 }

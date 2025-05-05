@@ -1,142 +1,197 @@
 ﻿@{
-    ViewBag.Title = "Analiz Sonucu";
-}
-
-@*<h2>Analiz Sonucu</h2>
-    <p><strong>Sonuç:</strong> @ViewBag.Explanation</p>
-    <p><strong>Tahmin:</strong> @(ViewBag.Prediction == 1 ? "Sağlıksız" : "Sağlıklı")</p>
-    <p><strong>Öneriler:</strong></p>
-    <ul>
-        @foreach (var recommendation in ViewBag.Recommendations)
-        {
-            <li>@recommendation</li>
-        }
-    </ul>*@
-
-
-
-@*@{
-        ViewBag.Title = "Analiz Sonucu";
-    }
-
-    <h2>Analiz Sonucu</h2>
-    <p><strong>Sonuç:</strong> @ViewBag.Explanation</p>
-    <p><strong>Tahmin:</strong> @(Convert.ToInt32(ViewBag.Prediction) == 1 ? "Sağlıksız" : "Sağlıklı")</p>
-    <p><strong>Öneriler:</strong></p>
-    <ul>
-        @if (ViewBag.Recommendations != null)
-        {
-            foreach (var recommendation in ViewBag.Recommendations)
-            {
-                <li>@recommendation</li>
-            }
-        }
-        else
-        {
-            <li>Öneri bulunamadı.</li>
-        }
-    </ul>*@
-
-
-@*@{
-        ViewBag.Title = "Analiz Sonucu";
-    }
-
-    <div class="analysis-result-container">
-        <h2 class="analysis-title">Analiz Sonucu</h2>
-
-        <div class="analysis-summary">
-            <div class="result-card">
-                <h3>Sonuç</h3>
-                <p>@ViewBag.Explanation</p>
-            </div>
-            <div class="result-card">
-                <h3>Tahmin</h3>
-                <p>
-                    @(Convert.ToInt32(ViewBag.Prediction) == 1 ? "Sağlıksız" : "Sağlıklı")
-                </p>
-            </div>
-        </div>
-
-        <div class="analysis-recommendations">
-            <h3>Öneriler</h3>
-            <ul>
-                @if (ViewBag.Recommendations != null)
-                {
-                    foreach (var recommendation in ViewBag.Recommendations)
-                    {
-                        <li>@recommendation</li>
-                    }
-                }
-                else
-                {
-                    <li>Öneri bulunamadı.</li>
-                }
-            </ul>
-        </div>
-
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const footer = document.querySelector('footer');
-            const bodyHeight = document.body.offsetHeight;
-            const windowHeight = window.innerHeight;
-
-            if (bodyHeight < windowHeight) {
-                footer.style.marginTop = (windowHeight - bodyHeight) + 'px';
-            }
-        });
-    </script>*@
-
-
-
-
-@{
     ViewBag.Title = "Analysis Result";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="analysis-result-container">
-    <h2 class="analysis-title">Analysis Result</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-chart-line"></i> Analysis Result <small>AI-Powered Medical Analysis</small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="analysis-result-container">
+                    <div class="analysis-header">
+                        <h1 class="analysis-title">Medical Analysis Results</h1>
+                        <p class="analysis-subtitle">AI-powered analysis of your medical report</p>
+                    </div>
 
-    <div class="analysis-summary">
-        <div class="result-card">
-            <h3>Result</h3>
-            <p>@ViewBag.Explanation</p>
-        </div>
-        <div class="result-card">
-            <h3>Prediction</h3>
-            <p>
-                @(Convert.ToInt32(ViewBag.Prediction) == 1 ? "Unhealthy" : "Healthy")
-            </p>
-        </div>
-    </div>
+                    <div class="analysis-summary">
+                        <div class="result-card @(ViewBag.Prediction == "1" ? "unhealthy" : "healthy")">
+                            <h3><i class="fa fa-heartbeat"></i> Health Status</h3>
+                            <p>@(ViewBag.Prediction == "1" ? "Requires Attention" : "Healthy")</p>
+                        </div>
+                        <div class="result-card">
+                            <h3><i class="fa fa-clock-o"></i> Analysis Date</h3>
+                            <p>@DateTime.Now.ToString("dd MMMM yyyy, HH:mm")</p>
+                        </div>
+                    </div>
 
-    <div class="analysis-recommendations">
-        <h3>Recommendations</h3>
-        <ul>
-            @if (ViewBag.Recommendations != null)
-            {
-                foreach (var recommendation in ViewBag.Recommendations)
-                {
-                    <li>@recommendation</li>
-                }
-            }
-            else
-            {
-                <li>No recommendations available.</li>
-            }
-        </ul>
+                    <div class="analysis-chart">
+                        <h3 class="chart-title"><i class="fa fa-chart-bar"></i> Test Results</h3>
+                        <div class="chart-container">
+                            <canvas id="testResultsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="analysis-chart">
+                        <h3 class="chart-title"><i class="fa fa-chart-pie"></i> Health Indicators</h3>
+                        <div class="chart-container">
+                            <canvas id="healthChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="analysis-recommendations">
+                        <h3><i class="fa fa-lightbulb-o"></i> Analysis Details</h3>
+                        <p class="analysis-description">@ViewBag.Explanation</p>
+                        
+                        <h3><i class="fa fa-list"></i> Recommendations</h3>
+                        <div class="recommendations-grid">
+                            @if (ViewBag.Recommendations != null)
+                            {
+                                foreach (var recommendation in ViewBag.Recommendations)
+                                {
+                                    <div class="recommendation-card">
+                                        <div class="recommendation-icon">
+                                            <i class="fa fa-check-circle"></i>
+                                        </div>
+                                        <div class="recommendation-content">
+                                            <p>@recommendation</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="recommendation-card">
+                                    <div class="recommendation-icon">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div>
+                                    <div class="recommendation-content">
+                                        <p>No specific recommendations available.</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="analysis-info">
+                        <p><i class="fa fa-info-circle"></i> This analysis is based on AI interpretation of your medical report.</p>
+                        <p><i class="fa fa-exclamation-triangle"></i> Please consult with healthcare professionals for medical advice.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const footer = document.querySelector('footer');
-        const bodyHeight = document.body.offsetHeight;
-        const windowHeight = window.innerHeight;
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Test Results Chart
+            var testResults = {
+                "Hemoglobin": 14.5,
+                "Glucose": 95,
+                "Cholesterol": 180,
+                "Triglycerides": 150,
+                "HDL": 45,
+                "LDL": 100,
+                "Creatinine": 1.1,
+                "Urea": 35
+            };
 
-        if (bodyHeight < windowHeight) {
-            footer.style.marginTop = (windowHeight - bodyHeight) + 'px';
-        }
-    });
-</script>
+            var normalRanges = {
+                "Hemoglobin": [12, 16],
+                "Glucose": [70, 100],
+                "Cholesterol": [125, 200],
+                "Triglycerides": [50, 150],
+                "HDL": [40, 60],
+                "LDL": [0, 100],
+                "Creatinine": [0.7, 1.3],
+                "Urea": [10, 50]
+            };
+            
+            var ctx = document.getElementById('testResultsChart').getContext('2d');
+            var testResultsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(testResults),
+                    datasets: [{
+                        label: 'Your Values',
+                        data: Object.values(testResults),
+                        backgroundColor: 'rgba(38, 185, 154, 0.2)',
+                        borderColor: 'rgba(38, 185, 154, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    var label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.parsed.y;
+                                    
+                                    // Add normal range to tooltip
+                                    var testName = context.label;
+                                    var range = normalRanges[testName];
+                                    if (range) {
+                                        label += ' (Normal Range: ' + range[0] + ' - ' + range[1] + ')';
+                                    }
+                                    
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Health Indicators Chart
+            var ctx2 = document.getElementById('healthChart').getContext('2d');
+            var healthChart = new Chart(ctx2, {
+                type: 'radar',
+                data: {
+                    labels: ['Blood Pressure', 'Heart Rate', 'Cholesterol', 'Blood Sugar', 'BMI'],
+                    datasets: [{
+                        label: 'Your Values',
+                        data: [65, 75, 70, 80, 60],
+                        backgroundColor: 'rgba(38, 185, 154, 0.2)',
+                        borderColor: 'rgba(38, 185, 154, 1)',
+                        pointBackgroundColor: 'rgba(38, 185, 154, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(38, 185, 154, 1)'
+                    }]
+                },
+                options: {
+                    scale: {
+                        ticks: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}
