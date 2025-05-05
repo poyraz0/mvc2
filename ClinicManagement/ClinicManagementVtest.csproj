@@ -561,6 +561,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MedicalAnalysisController.cs" />
     <Compile Include="Controllers\MedicalReportsController.cs" />
+    <Compile Include="Controllers\XrayTestController.cs" />
     <Compile Include="Core\Models\MedicalAnalysis.cs" />
     <Compile Include="Core\Models\MedicalReport.cs" />
     <Compile Include="Core\Models\PredictResponse.cs" />
@@ -1480,6 +1481,7 @@
     <Content Include="Views\BMI\Index.cshtml" />
     <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\HealthAssistant\Index.cshtml" />
+    <Content Include="Views\XrayTest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data2\" />
