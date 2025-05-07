@@ -1,6 +1,7 @@
 @{
     ViewBag.Title = "Pneumonia Test (X-ray)";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var isPneumonia = (ViewBag.Result != null && ViewBag.Result.ToString() == "1");
 }
 
 <div class="xray-modern-bg">
@@ -33,18 +34,18 @@
             {
                 <div class="alert alert-danger mt-3">@ViewBag.Error</div>
             }
-            @if (ViewBag.Result != null && ViewBag.Explanation != null)
+            @if (ViewBag.Result != null)
             {
                 <div class="xray-modern-result mt-4 text-center">
                     <h4 class="mb-3">Result:</h4>
-                    <span class="badge badge-pill xray-modern-result-badge @(ViewBag.Result == "1" ? "xray-modern-badge-danger" : "xray-modern-badge-success")">
-                        @(ViewBag.Explanation == "Pnömoni" ? "Pneumonia" : "Healthy")
+                    <span class="badge badge-pill xray-modern-result-badge @(isPneumonia ? "xray-modern-badge-danger" : "xray-modern-badge-success")">
+                        @(isPneumonia ? "Pneumonia" : "Healthy")
                     </span>
                     <div class="mt-3">
-                        <i class="fa @(ViewBag.Result == "1" ? "fa-exclamation-triangle xray-modern-danger-icon" : "fa-check-circle xray-modern-success-icon") xray-modern-result-icon"></i>
+                        <i class="fa @(isPneumonia ? "fa-exclamation-triangle xray-modern-danger-icon" : "fa-check-circle xray-modern-success-icon") xray-modern-result-icon"></i>
                     </div>
                     <div class="xray-modern-result-info mt-3">
-                        @if (ViewBag.Result == "1")
+                        @if (isPneumonia)
                         {
                             <span class="text-danger"><b>Pneumonia detected.</b> Please consult a healthcare professional for further evaluation.</span>
                         }
