@@ -1,4 +1,4 @@
-@{
+﻿@{
     ViewBag.Title = "Health Assistant";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -105,7 +105,7 @@
                 if (message) {
                     addMessage(message, true);
                     messageInput.val('').focus();
-                    
+
                     // Disable input and button while processing
                     messageInput.prop('disabled', true);
                     sendButton.prop('disabled', true);
@@ -116,18 +116,16 @@
                         data: { message: message },
                         success: function (response) {
                             if (response.success) {
-                                const parsedResponse = JSON.parse(response.response);
-                                const assistantMessage = parsedResponse.choices[0].message.content;
-                                addMessage(assistantMessage, false);
+                                // Doğrudan dönen mesajı gösteriyoruz
+                                addMessage(response.response, false);
                             } else {
-                                addMessage('Sorry, an error occurred. Please try again.', false);
+                                addMessage('Sorry, an error occurred: ' + response.error, false);
                             }
                         },
                         error: function () {
-                            addMessage('Sorry, an error occurred. Please try again.', false);
+                            addMessage('Sorry, a system error occurred. Please try again.', false);
                         },
                         complete: function() {
-                            // Re-enable input and button after processing
                             messageInput.prop('disabled', false);
                             sendButton.prop('disabled', false);
                             messageInput.focus();
@@ -144,8 +142,7 @@
                 }
             });
 
-            // Focus input on page load
             messageInput.focus();
         });
     </script>
-} 
+}

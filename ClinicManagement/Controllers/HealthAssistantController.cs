@@ -25,8 +25,11 @@ namespace ClinicManagement.Controllers
             {
                 using (var client = new HttpClient())
                 {
+                    client.Timeout = TimeSpan.FromSeconds(600);
+
                     var requestData = new
                     {
+                        model = "meddialogv3_1_llama",
                         messages = new[]
                         {
                             new { role = "user", content = message }
@@ -43,13 +46,21 @@ namespace ClinicManagement.Controllers
                     var response = await client.PostAsync(_apiUrl, content);
                     var responseString = await response.Content.ReadAsStringAsync();
 
-                    return Json(new { success = true, response = responseString });
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return Json(new { success = false, error = responseString });
+                    }
+
+                    dynamic result = JsonConvert.DeserializeObject(responseString);
+                    string assistantReply = result.choices[0].message.content;
+
+                    return Json(new { success = true, response = assistantReply });
                 }
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, error = ex.Message });
+                return Json(new { success = false, error = ex.ToString() });
             }
         }
     }
-} 
+}

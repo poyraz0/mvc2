@@ -95,6 +95,8 @@ namespace ClinicManagement.Controllers
             return View(viewModel);
         }
 
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(AppointmentFormViewModel viewModel)
