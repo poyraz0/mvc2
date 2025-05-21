@@ -18,6 +18,7 @@ namespace ClinicManagement.Controllers
             return View("~/Views/HealthAssistant/Index.cshtml", "_Layout");
         }
 
+
         [HttpPost]
         public async Task<JsonResult> SendMessage(string message)
         {
