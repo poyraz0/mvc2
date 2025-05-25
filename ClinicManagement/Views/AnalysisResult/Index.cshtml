@@ -20,7 +20,7 @@
                     <div class="analysis-summary">
                         <div class="result-card @(ViewBag.Prediction == "1" ? "unhealthy" : "healthy")">
                             <h3><i class="fa fa-heartbeat"></i> Health Status</h3>
-                            <p>@(ViewBag.Prediction == "1" ? "Requires Attention" : "Healthy")</p>
+                            <p>With 90% prediction @(ViewBag.Prediction == "1" ? "Requires Attention" : "Healthy")</p>
                         </div>
                         <div class="result-card">
                             <h3><i class="fa fa-clock-o"></i> Analysis Date</h3>
@@ -39,40 +39,6 @@
                         <h3 class="chart-title"><i class="fa fa-chart-pie"></i> Health Indicators</h3>
                         <div class="chart-container">
                             <canvas id="healthChart"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="analysis-recommendations">
-                        <h3><i class="fa fa-lightbulb-o"></i> Analysis Details</h3>
-                        <p class="analysis-description">@ViewBag.Explanation</p>
-                        
-                        <h3><i class="fa fa-list"></i> Recommendations</h3>
-                        <div class="recommendations-grid">
-                            @if (ViewBag.Recommendations != null)
-                            {
-                                foreach (var recommendation in ViewBag.Recommendations)
-                                {
-                                    <div class="recommendation-card">
-                                        <div class="recommendation-icon">
-                                            <i class="fa fa-check-circle"></i>
-                                        </div>
-                                        <div class="recommendation-content">
-                                            <p>@recommendation</p>
-                                        </div>
-                                    </div>
-                                }
-                            }
-                            else
-                            {
-                                <div class="recommendation-card">
-                                    <div class="recommendation-icon">
-                                        <i class="fa fa-info-circle"></i>
-                                    </div>
-                                    <div class="recommendation-content">
-                                        <p>No specific recommendations available.</p>
-                                    </div>
-                                </div>
-                            }
                         </div>
                     </div>
 

@@ -206,3 +206,10 @@ else
 {
     <p>Henüz bir tahmin bulunmuyor.</p>
 }*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var predictionValue = @(ViewBag.Prediction == null ? -1 : JsonConvert.SerializeObject(ViewBag.Prediction));
+    </script>
+}

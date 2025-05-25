@@ -159,7 +159,8 @@ namespace ClinicManagement.Controllers
                 if (result.Succeeded)
                 {
                     // Kullanıcıya varsayılan rol ata (ör: "Patient")
-                    await UserManager.AddToRoleAsync(user.Id, "Patient");
+                    //await UserManager.AddToRoleAsync(user.Id, "Patient");
+                    await UserManager.AddToRoleAsync(user.Id, RoleName.DoctorRoleName);
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     return RedirectToAction("Index", "Home");
                 }

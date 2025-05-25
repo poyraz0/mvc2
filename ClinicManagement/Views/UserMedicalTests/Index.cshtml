@@ -1,0 +1,87 @@
+﻿@model IEnumerable<ClinicManagement.Core.Models.UserMedicalTest>
+
+@{
+    ViewBag.Title = "Medical Test Tracking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Medical Test Tracking</h2>
+
+<p>
+    @Html.ActionLink("Upload New Medical Test", "Upload", null, new { @class = "btn btn-primary" })
+</p>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>File Name</th>
+            <th>Upload Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var test in Model)
+            {
+                <tr>
+                    <td>@test.FileName</td>
+                    <td>@test.UploadDate.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>
+                        <a href="@Url.Content(test.FilePath)" class="btn btn-info btn-sm" download>View / Download</a>
+                        <button type="button" class="btn btn-danger btn-sm delete-medical-test" data-id="@test.Id">Delete</button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">No medical tests have been uploaded yet.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $('.delete-medical-test').on('click', function () {
+                var button = $(this);
+                var testId = button.data('id');
+
+                if (confirm('Are you sure you want to delete this medical test?')) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "UserMedicalTests")',
+                        type: 'POST',
+                        data: { id: testId },
+                        success: function (result) {
+                            if (result.success) {
+                                // Remove the table row on successful deletion
+                                button.closest('tr').remove();
+                            } else {
+                                alert(result.message || 'Error deleting medical test.');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert('An error occurred while trying to delete the medical test.');
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

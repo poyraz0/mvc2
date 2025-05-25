@@ -413,14 +413,24 @@
     <Reference Include="System.Reflection.Metadata, Version=1.4.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reflection.Metadata.1.4.2\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.DurableInstancing" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Security" />
     <Reference Include="System.Security.AccessControl, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.AccessControl.4.5.0\lib\net461\System.Security.AccessControl.dll</HintPath>
@@ -568,10 +578,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MedicalAnalysisController.cs" />
     <Compile Include="Controllers\MedicalReportsController.cs" />
+    <Compile Include="Controllers\UserMedicalTestsController.cs" />
     <Compile Include="Controllers\XrayTestController.cs" />
     <Compile Include="Core\Models\MedicalAnalysis.cs" />
     <Compile Include="Core\Models\MedicalReport.cs" />
     <Compile Include="Core\Models\PredictResponse.cs" />
+    <Compile Include="Core\Models\UserMedicalTest.cs" />
     <Compile Include="Core\ViewModel\AppointmentSearchVM.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -606,6 +618,14 @@
     <Compile Include="Migrations\202412252106165_InitialDb2.cs" />
     <Compile Include="Migrations\202412252106165_InitialDb2.designer.cs">
       <DependentUpon>202412252106165_InitialDb2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505222003159_AddUserMedicalTest.cs" />
+    <Compile Include="Migrations\202505222003159_AddUserMedicalTest.Designer.cs">
+      <DependentUpon>202505222003159_AddUserMedicalTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505222023192_AddUserMedicalTestsTable.cs" />
+    <Compile Include="Migrations\202505222023192_AddUserMedicalTestsTable.Designer.cs">
+      <DependentUpon>202505222023192_AddUserMedicalTestsTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\AppointmentConfiguration.cs" />
@@ -1157,6 +1177,7 @@
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery.icheck.js" />
     <Content Include="Scripts\jquery.icheck.min.js" />
+    <Content Include="App_Data2\MedicalTests\Enabiz-Tahlilleri %283%29.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -1489,9 +1510,11 @@
     <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\HealthAssistant\Index.cshtml" />
     <Content Include="Views\XrayTest\Index.cshtml" />
+    <Content Include="Views\UserMedicalTests\Index.cshtml" />
+    <Content Include="Views\UserMedicalTests\Upload.cshtml" />
+    <Content Include="Views\Shared\_PatientNav.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data2\" />
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Services\" />
@@ -1525,6 +1548,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202412252106165_InitialDb2.resx">
       <DependentUpon>202412252106165_InitialDb2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505222003159_AddUserMedicalTest.resx">
+      <DependentUpon>202505222003159_AddUserMedicalTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505222023192_AddUserMedicalTestsTable.resx">
+      <DependentUpon>202505222023192_AddUserMedicalTestsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

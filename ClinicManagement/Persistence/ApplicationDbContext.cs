@@ -20,6 +20,8 @@ namespace ClinicManagement.Persistence
       
         public DbSet<MedicalAnalysis> MedicalAnalysis { get; set; }
 
+        public DbSet<UserMedicalTest> UserMedicalTests { get; set; }
+
 
 
 

@@ -142,26 +142,11 @@ namespace ClinicManagement.Controllers
         //}
 
 
-        // Index Action: API'den tahmin sonucu alır ve View'e gönderir
-        public async Task<ActionResult> Index()
+        // Geçici Index Eylemi: API çağrısı yapmaz
+        public ActionResult Index()
         {
-            // Gönderilecek veriler (örnek features)
-            var features = new double[] { 110, 6.0, 150, 45, 180, 220, 250, 50, 12 };
-
-            // Flask API'ye istek gönder
-            var apiResponse = await GetPredictionFromApi(features);
-
-            if (apiResponse != null)
-            {
-                ViewBag.PredictionResult = apiResponse.Prediction;
-                ViewBag.Recommendations = apiResponse.Recommendations;
-            }
-            else
-            {
-                ViewBag.PredictionResult = "Tahmin yapılamadı. API yanıtı boş veya hatalı.";
-                ViewBag.Recommendations = new List<string>();
-            }
-
+            ViewBag.PredictionResult = "API çağrısı devre dışı bırakıldı.";
+            ViewBag.Recommendations = new List<string> { "Bu metin API çağrısı atlanarak gösteriliyor." };
             return View();
         }
 
