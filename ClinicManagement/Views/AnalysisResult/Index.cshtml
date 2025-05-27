@@ -56,108 +56,106 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         $(document).ready(function () {
-            // Test Results Chart
-            var testResults = {
-                "Hemoglobin": 14.5,
-                "Glucose": 95,
-                "Cholesterol": 180,
-                "Triglycerides": 150,
-                "HDL": 45,
-                "LDL": 100,
-                "Creatinine": 1.1,
-                "Urea": 35
-            };
-
-            var normalRanges = {
-                "Hemoglobin": [12, 16],
-                "Glucose": [70, 100],
-                "Cholesterol": [125, 200],
-                "Triglycerides": [50, 150],
-                "HDL": [40, 60],
-                "LDL": [0, 100],
-                "Creatinine": [0.7, 1.3],
-                "Urea": [10, 50]
-            };
+            // Initialize data with default values if ViewBag data is not available
+            var testResults = @Html.Raw(Json.Encode(ViewBag.TestResults ?? new Dictionary<string, double>()));
+            var normalRanges = @Html.Raw(Json.Encode(ViewBag.NormalRanges ?? new Dictionary<string, double[]>()));
             
-            var ctx = document.getElementById('testResultsChart').getContext('2d');
-            var testResultsChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(testResults),
-                    datasets: [{
-                        label: 'Your Values',
-                        data: Object.values(testResults),
-                        backgroundColor: 'rgba(38, 185, 154, 0.2)',
-                        borderColor: 'rgba(38, 185, 154, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+            console.log('Test Results:', testResults);
+            console.log('Normal Ranges:', normalRanges);
+
+            // Check if canvas elements exist
+            var testResultsCanvas = document.getElementById('testResultsChart');
+            var healthCanvas = document.getElementById('healthChart');
+            
+            if (!testResultsCanvas || !healthCanvas) {
+                console.error('Canvas elements not found!');
+                return;
+            }
+
+            try {
+                // Test Results Chart
+                var ctx = testResultsCanvas.getContext('2d');
+                var testResultsChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(testResults),
+                        datasets: [{
+                            label: 'Your Values',
+                            data: Object.values(testResults),
+                            backgroundColor: 'rgba(38, 185, 154, 0.2)',
+                            borderColor: 'rgba(38, 185, 154, 1)',
+                            borderWidth: 1
+                        }]
                     },
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    var label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        var label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        label += context.parsed.y;
+                                        
+                                        // Add normal range to tooltip
+                                        var testName = context.label;
+                                        var range = normalRanges[testName];
+                                        if (range) {
+                                            label += ' (Normal Range: ' + range[0] + ' - ' + range[1] + ')';
+                                        }
+                                        
+                                        return label;
                                     }
-                                    label += context.parsed.y;
-                                    
-                                    // Add normal range to tooltip
-                                    var testName = context.label;
-                                    var range = normalRanges[testName];
-                                    if (range) {
-                                        label += ' (Normal Range: ' + range[0] + ' - ' + range[1] + ')';
-                                    }
-                                    
-                                    return label;
                                 }
                             }
                         }
                     }
-                }
-            });
+                });
 
-            // Health Indicators Chart
-            var ctx2 = document.getElementById('healthChart').getContext('2d');
-            var healthChart = new Chart(ctx2, {
-                type: 'radar',
-                data: {
-                    labels: ['Blood Pressure', 'Heart Rate', 'Cholesterol', 'Blood Sugar', 'BMI'],
-                    datasets: [{
-                        label: 'Your Values',
-                        data: [65, 75, 70, 80, 60],
-                        backgroundColor: 'rgba(38, 185, 154, 0.2)',
-                        borderColor: 'rgba(38, 185, 154, 1)',
-                        pointBackgroundColor: 'rgba(38, 185, 154, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(38, 185, 154, 1)'
-                    }]
-                },
-                options: {
-                    scale: {
-                        ticks: {
-                            beginAtZero: true,
-                            max: 100
-                        }
+                // Health Indicators Chart
+                var ctx2 = healthCanvas.getContext('2d');
+                var healthChart = new Chart(ctx2, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Blood Pressure', 'Heart Rate', 'Cholesterol', 'Blood Sugar', 'BMI'],
+                        datasets: [{
+                            label: 'Your Values',
+                            data: [65, 75, 70, 80, 60],
+                            backgroundColor: 'rgba(38, 185, 154, 0.2)',
+                            borderColor: 'rgba(38, 185, 154, 1)',
+                            pointBackgroundColor: 'rgba(38, 185, 154, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(38, 185, 154, 1)'
+                        }]
                     },
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
+                    options: {
+                        scale: {
+                            ticks: {
+                                beginAtZero: true,
+                                max: 100
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
                         }
                     }
-                }
-            });
+                });
+            } catch (e) {
+                console.error('Error creating charts:', e);
+            }
         });
     </script>
 }

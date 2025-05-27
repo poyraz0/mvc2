@@ -1968,10 +1968,12 @@ function init_charts() {
 
 	console.log('init_charts');
 
-
-	Chart.defaults.global.legend = {
-		enabled: false
-	};
+	// Check if Chart.defaults.global exists before setting properties
+	if (Chart.defaults && Chart.defaults.global) {
+		Chart.defaults.global.legend = {
+			enabled: false
+		};
+	}
 
 
 
